@@ -2,12 +2,12 @@
 // Created by shivesh on 9/14/19.
 //
 
-#ifndef ARS_40X_CLUSTER_LIST_HPP
-#define ARS_40X_CLUSTER_LIST_HPP
+#ifndef ARS_40x_CLUSTER_LIST_HPP
+#define ARS_40x_CLUSTER_LIST_HPP
 
 #include <cstdint>
 
-namespace ars_40X {
+namespace ars_40x {
 namespace cluster_list {
 typedef union cluster_0_status {
   struct {
@@ -145,4 +145,4 @@ class Cluster_2_Quality {
 }
 }
 
-#endif //ARS_40X_CLUSTER_LIST_HPP
+#endif //ARS_40x_CLUSTER_LIST_HPP

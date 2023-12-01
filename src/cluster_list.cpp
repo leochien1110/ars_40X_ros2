@@ -2,9 +2,9 @@
 // Created by shivesh on 9/17/19.
 //
 
-#include "ars_40X/cluster_list.hpp"
+#include "ars_40x/cluster_list.hpp"
 
-namespace ars_40X {
+namespace ars_40x {
 namespace cluster_list {
 Cluster_0_Status::Cluster_0_Status() {
 }

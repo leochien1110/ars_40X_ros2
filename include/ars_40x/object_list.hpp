@@ -2,12 +2,12 @@
 // Created by shivesh on 9/14/19.
 //
 
-#ifndef ARS_40X_OBJECT_LIST_HPP
-#define ARS_40X_OBJECT_LIST_HPP
+#ifndef ARS_40x_OBJECT_LIST_HPP
+#define ARS_40x_OBJECT_LIST_HPP
 
 #include <cstdint>
 
-namespace ars_40X {
+namespace ars_40x {
 namespace object_list {
 typedef union object_0_status {
   struct {
@@ -205,4 +205,4 @@ class Object_3_Extended {
 }
 }
 
-#endif //ARS_40X_OBJECT_LIST_HPP
+#endif //ARS_40x_OBJECT_LIST_HPP

@@ -2,9 +2,9 @@
 // Created by shivesh on 9/17/19.
 //
 
-#include "ars_40X/object_list.hpp"
+#include "ars_40x/object_list.hpp"
 
-namespace ars_40X {
+namespace ars_40x {
 namespace object_list {
 Object_0_Status::Object_0_Status() {
 }

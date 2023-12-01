@@ -2,9 +2,9 @@
 // Created by shivesh on 9/14/19.
 //
 
-#include <ars_40X/radar_cfg.hpp>
+#include <ars_40x/radar_cfg.hpp>
 
-namespace ars_40X {
+namespace ars_40x {
 namespace radar_cfg {
 RadarCfg::RadarCfg() {
   radar_cfg_msg.data.RadarCfg_MaxDistance_valid = 0;

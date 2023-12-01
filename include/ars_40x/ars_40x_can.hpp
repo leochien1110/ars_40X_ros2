@@ -2,22 +2,22 @@
 // Created by shivesh on 9/13/19.
 //
 
-#ifndef ARS_40X_ARS_40X_HPP
-#define ARS_40X_ARS_40X_HPP
+#ifndef ARS_40x_ARS_40x_HPP
+#define ARS_40x_ARS_40x_HPP
 
 #include <socket_can/socket_can.hpp>
 
-#include "ars_40X/cluster_list.hpp"
-#include "ars_40X/motion_input_signals.hpp"
-#include "ars_40X/object_list.hpp"
-#include "ars_40X/radar_cfg.hpp"
-#include "ars_40X/radar_state.hpp"
+#include "ars_40x/cluster_list.hpp"
+#include "ars_40x/motion_input_signals.hpp"
+#include "ars_40x/object_list.hpp"
+#include "ars_40x/radar_cfg.hpp"
+#include "ars_40x/radar_state.hpp"
 
 #include <cstdint>
 #include <string>
 #include <iostream>
 
-namespace ars_40X {
+namespace ars_40x {
 typedef enum can_messages {
   RadarCfg = 0x200,
   RadarState = 0x201,
@@ -42,13 +42,13 @@ typedef enum can_messages {
   CollDetRelayCtrl = 0x8,
 } can_messages;
 
-class ARS_40X_CAN {
+class ARS_40x_CAN {
  public:
-  ARS_40X_CAN();
+  ARS_40x_CAN();
 
-  ARS_40X_CAN(std::string port);
+  ARS_40x_CAN(std::string port);
 
-  ~ARS_40X_CAN();
+  ~ARS_40x_CAN();
 
   virtual bool receive_radar_data();
 
@@ -119,4 +119,4 @@ class ARS_40X_CAN {
 };
 }
 
-#endif //ARS_40X_ARS_40X_HPP
+#endif //ARS_40x_ARS_40x_HPP

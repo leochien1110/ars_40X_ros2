@@ -2,12 +2,12 @@
 // Created by shivesh on 9/14/19.
 //
 
-#ifndef ARS_40X_MOTION_INPUT_SIGNALS_HPP
-#define ARS_40X_MOTION_INPUT_SIGNALS_HPP
+#ifndef ARS_40x_MOTION_INPUT_SIGNALS_HPP
+#define ARS_40x_MOTION_INPUT_SIGNALS_HPP
 
 #include <cstdint>
 
-namespace ars_40X {
+namespace ars_40x {
 namespace motion_input_signals {
 typedef union speed_information {
   struct {
@@ -69,4 +69,4 @@ class YawRateInformation {
 }
 }
 
-#endif //ARS_40X_MOTION_INPUT_SIGNALS_HPP
+#endif //ARS_40x_MOTION_INPUT_SIGNALS_HPP

@@ -2,12 +2,12 @@
 // Created by shivesh on 9/14/19.
 //
 
-#ifndef ARS_40X_RADAR_STATE_HPP
-#define ARS_40X_RADAR_STATE_HPP
+#ifndef ARS_40x_RADAR_STATE_HPP
+#define ARS_40x_RADAR_STATE_HPP
 
 #include <cstdint>
 
-namespace ars_40X {
+namespace ars_40x {
 namespace radar_state {
 typedef union radar_state {
   struct {
@@ -91,4 +91,4 @@ class RadarState {
 }
 }
 
-#endif //ARS_40X_RADAR_STATE_HPP
+#endif //ARS_40x_RADAR_STATE_HPP

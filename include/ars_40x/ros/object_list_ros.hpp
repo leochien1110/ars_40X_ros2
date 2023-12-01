@@ -2,20 +2,20 @@
 // Created by shivesh on 9/14/19.
 //
 
-#ifndef ARS_40X_OBJECT_LIST_ROS_HPP
-#define ARS_40X_OBJECT_LIST_ROS_HPP
+#ifndef ARS_40x_OBJECT_LIST_ROS_HPP
+#define ARS_40x_OBJECT_LIST_ROS_HPP
 
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 
 #include <cstdint>
 
-#include "ars_40X/ObjectList.h"
-#include "ars_40X/ars_40X_can.hpp"
+#include "perception_msgs/msg/object_list.hpp"
+#include "ars_40x/ars_40x_can.hpp"
 
-namespace ars_40X {
-class ObjectListROS {
+namespace ars_40x {
+class ObjectListROS : public rclcpp::Node {
  public:
-  ObjectListROS(ros::NodeHandle &nh, ARS_40X_CAN *continentalRadarCAN);
+  ObjectListROS(ARS_40x_CAN *continentalRadarCAN);
 
   ~ObjectListROS();
 
@@ -32,11 +32,11 @@ class ObjectListROS {
  private:
   std::string frame_id_;
 
-  ros::Publisher objects_data_pub_;
+  rclcpp::Publisher<perception_msgs::msg::ObjectList>::SharedPtr objects_data_pub_;
 
-  ARS_40X_CAN *ars_40X_can_;
+  ARS_40x_CAN *ars_40x_can_;
 
-  ObjectList object_list;
+  perception_msgs::msg::ObjectList object_list;
 
   object_list::Object_0_Status *object_0_status_;
 
@@ -52,4 +52,4 @@ class ObjectListROS {
 };
 }
 
-#endif //ARS_40X_OBJECT_LIST_ROS_HPP
+#endif //ARS_40x_OBJECT_LIST_ROS_HPP

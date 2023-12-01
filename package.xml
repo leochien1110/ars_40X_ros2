@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>ars_40X</name>
+  <name>ars_40x</name>
   <version>0.0.0</version>
-  <description>The ars_40X package contains a ROS driver for the Continental radar ARS_404 / ARS_408.</description>
+  <description>The ars_40x package contains a ROS driver for the Continental radar ARS_404 / ARS_408.</description>
   <maintainer email="shiveshkhaitan@gmail.com">shiveshkhaitan</maintainer>
   <license>TODO: License declaration</license>
 
@@ -21,6 +21,7 @@
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
   <depend>visualization_msgs</depend>
+  <depend>perception_msgs</depend>
 
   <exec_depend condition="$ROS_VERSION == 1">message_runtime</exec_depend>
 

@@ -2,42 +2,43 @@
 // Created by shivesh on 9/17/19.
 //
 
-#include "ars_40X/ros/object_list_ros.hpp"
+#include "ars_40x/ros/object_list_ros.hpp"
 
-#include <geometry_msgs/Quaternion.h>
+#include <geometry_msgs/msg/quaternion.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
-namespace ars_40X {
-ObjectListROS::ObjectListROS(ros::NodeHandle &nh, ARS_40X_CAN *ars_40X_can) :
-    ars_40X_can_(ars_40X_can) {
-  object_0_status_ = ars_40X_can_->get_object_0_status();
-  object_1_general_ = ars_40X_can_->get_object_1_general();
-  object_2_quality_ = ars_40X_can_->get_object_2_quality();
-  object_3_extended_ = ars_40X_can_->get_object_3_extended();
-  objects_data_pub_ = nh.advertise<ars_40X::ObjectList>("ars_40X/objects", 10);
+namespace ars_40x {
+ObjectListROS::ObjectListROS(ARS_40x_CAN *ars_40x_can) :
+    Node("ars_40x_object_list_ros"),
+    ars_40x_can_(ars_40x_can) {
+    object_0_status_ = ars_40x_can_->get_object_0_status();
+    object_1_general_ = ars_40x_can_->get_object_1_general();
+    object_2_quality_ = ars_40x_can_->get_object_2_quality();
+    object_3_extended_ = ars_40x_can_->get_object_3_extended();
+    objects_data_pub_ = this->create_publisher<perception_msgs::msg::ObjectList>("objects_data", 10);
 }
 
 ObjectListROS::~ObjectListROS() {
 }
 
 void ObjectListROS::set_frame_id(std::string frame_id) {
-  frame_id_ = frame_id;
+    frame_id_ = frame_id;
 }
 
 void ObjectListROS::send_object_0_status() {
-  object_list.header.stamp = ros::Time::now();
-  object_list.header.frame_id = frame_id_;
-  object_list.objects.erase(
-      object_list.objects.begin() + std::min(object_2_quality_id_, object_3_extended_id_),
-      object_list.objects.begin() + object_list.objects.size());
-  objects_data_pub_.publish(object_list);
-  object_list.objects.clear();
-  object_2_quality_id_ = 0;
-  object_3_extended_id_ = 0;
+    object_list.header.stamp = this->now();
+    object_list.header.frame_id = frame_id_;
+    object_list.objects.erase(
+        object_list.objects.begin() + std::min(object_2_quality_id_, object_3_extended_id_),
+        object_list.objects.begin() + object_list.objects.size());
+    objects_data_pub_->publish(object_list);
+    object_list.objects.clear();
+    object_2_quality_id_ = 0;
+    object_3_extended_id_ = 0;
 }
 
 void ObjectListROS::send_object_1_general() {
-  Object object;
+  perception_msgs::msg::Object object;
   object.id = object_1_general_->get_object_id();
   object.position.pose.position.x = object_1_general_->get_object_long_dist();
   object.position.pose.position.y = object_1_general_->get_object_lat_dist();

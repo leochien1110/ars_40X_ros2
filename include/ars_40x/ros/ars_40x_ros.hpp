@@ -1,27 +1,20 @@
-//
-// Created by shivesh on 9/13/19.
-//
-
-#ifndef ARS_40X_ARS_40X_ROS_HPP
-#define ARS_40X_ARS_40X_ROS_HPP
-
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 #include <thread>
 
-#include "ars_40X/ros/cluster_list_ros.hpp"
-#include "ars_40X/ros/motion_input_signals_ros.hpp"
-#include "ars_40X/ros/object_list_ros.hpp"
-#include "ars_40X/ros/radar_cfg_ros.hpp"
-#include "ars_40X/ros/radar_state_ros.hpp"
+#include "ars_40x/ros/cluster_list_ros.hpp"
+#include "ars_40x/ros/motion_input_signals_ros.hpp"
+#include "ars_40x/ros/object_list_ros.hpp"
+#include "ars_40x/ros/radar_cfg_ros.hpp"
+#include "ars_40x/ros/radar_state_ros.hpp"
 
-#include "ars_40X/ars_40X_can.hpp"
+#include "ars_40x/ars_40x_can.hpp"
 
-namespace ars_40X {
-class ARS_40X_ROS : public ARS_40X_CAN {
+namespace ars_40x {
+class ARS_40x_ROS : public rclcpp::Node, public ARS_40x_CAN {
  public:
-  ARS_40X_ROS(ros::NodeHandle &nh);
+  ARS_40x_ROS();
 
-  ~ARS_40X_ROS();
+  ~ARS_40x_ROS();
 
   void receive_data();
 
@@ -44,8 +37,6 @@ class ARS_40X_ROS : public ARS_40X_CAN {
   void send_radar_state();
 
  private:
-  ros::NodeHandle nh_;
-
   std::thread receive_data_thread_;
 
   ClusterListROS cluster_list_ros_;
@@ -59,5 +50,3 @@ class ARS_40X_ROS : public ARS_40X_CAN {
   RadarStateROS radar_state_ros_;
 };
 }
-
-#endif //ARS_40X_ARS_40X_ROS_HPP

@@ -2,21 +2,21 @@
 // Created by shivesh on 9/13/19.
 //
 
-#include "ars_40X/ars_40X_can.hpp"
+#include "ars_40x/ars_40x_can.hpp"
 
-namespace ars_40X {
-ARS_40X_CAN::ARS_40X_CAN() :
+namespace ars_40x {
+ARS_40x_CAN::ARS_40x_CAN() :
     can_("can0") {
 }
 
-ARS_40X_CAN::ARS_40X_CAN(std::string port) :
+ARS_40x_CAN::ARS_40x_CAN(std::string port) :
     can_(port.c_str()) {
 }
 
-ARS_40X_CAN::~ARS_40X_CAN() {
+ARS_40x_CAN::~ARS_40x_CAN() {
 }
 
-bool ARS_40X_CAN::receive_radar_data() {
+bool ARS_40x_CAN::receive_radar_data() {
   uint32_t frame_id;
   uint8_t dlc;
   uint8_t data[8] = {0};
@@ -67,7 +67,7 @@ bool ARS_40X_CAN::receive_radar_data() {
   return true;
 }
 
-bool ARS_40X_CAN::send_radar_data(uint32_t frame_id) {
+bool ARS_40x_CAN::send_radar_data(uint32_t frame_id) {
   switch (frame_id) {
     case RadarCfg:can_.write(frame_id, 8, radar_cfg_.get_radar_cfg()->raw_data);
       break;
@@ -88,47 +88,47 @@ bool ARS_40X_CAN::send_radar_data(uint32_t frame_id) {
   return true;
 }
 
-cluster_list::Cluster_0_Status *ARS_40X_CAN::get_cluster_0_status() {
+cluster_list::Cluster_0_Status *ARS_40x_CAN::get_cluster_0_status() {
   return &cluster_0_status_;
 }
 
-cluster_list::Cluster_1_General *ARS_40X_CAN::get_cluster_1_general() {
+cluster_list::Cluster_1_General *ARS_40x_CAN::get_cluster_1_general() {
   return &cluster_1_general_;
 }
 
-cluster_list::Cluster_2_Quality *ARS_40X_CAN::get_cluster_2_quality() {
+cluster_list::Cluster_2_Quality *ARS_40x_CAN::get_cluster_2_quality() {
   return &cluster_2_quality_;
 }
 
-motion_input_signals::SpeedInformation *ARS_40X_CAN::get_speed_information() {
+motion_input_signals::SpeedInformation *ARS_40x_CAN::get_speed_information() {
   return &speed_information_;
 }
 
-motion_input_signals::YawRateInformation *ARS_40X_CAN::get_yaw_rate_information() {
+motion_input_signals::YawRateInformation *ARS_40x_CAN::get_yaw_rate_information() {
   return &yaw_rate_information_;
 }
 
-object_list::Object_0_Status *ARS_40X_CAN::get_object_0_status() {
+object_list::Object_0_Status *ARS_40x_CAN::get_object_0_status() {
   return &object_0_status_;
 }
 
-object_list::Object_1_General *ARS_40X_CAN::get_object_1_general() {
+object_list::Object_1_General *ARS_40x_CAN::get_object_1_general() {
   return &object_1_general_;
 }
 
-object_list::Object_2_Quality *ARS_40X_CAN::get_object_2_quality() {
+object_list::Object_2_Quality *ARS_40x_CAN::get_object_2_quality() {
   return &object_2_quality_;
 }
 
-object_list::Object_3_Extended *ARS_40X_CAN::get_object_3_extended() {
+object_list::Object_3_Extended *ARS_40x_CAN::get_object_3_extended() {
   return &object_3_extended_;
 }
 
-radar_state::RadarState *ARS_40X_CAN::get_radar_state() {
+radar_state::RadarState *ARS_40x_CAN::get_radar_state() {
   return &radar_state_;
 }
 
-radar_cfg::RadarCfg *ARS_40X_CAN::get_radar_cfg() {
+radar_cfg::RadarCfg *ARS_40x_CAN::get_radar_cfg() {
   return &radar_cfg_;
 }
 }
