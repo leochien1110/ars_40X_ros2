@@ -6,6 +6,10 @@
 #### Requirements
 
 - [socket_can](https://github.com/Project-MANAS/socket_can)
+- [costmap_converter]
+- [costmap_converter_msgs]
+- [visualization_msgs]
+- [perception_msgs]
 
 #### Launching with arguments
 

@@ -53,6 +53,8 @@ add_executable(ars_40x_ros
     src/ros/radar_cfg_ros.cpp
     src/ros/radar_state_ros.cpp
     )
+target_link_libraries(ars_40x_ros ars_40x_can ${socket_can_LIBRARIES})
+
 ament_target_dependencies(ars_40x_ros
     costmap_converter
     costmap_converter_msgs

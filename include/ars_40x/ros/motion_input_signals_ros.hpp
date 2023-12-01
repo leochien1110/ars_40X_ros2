@@ -20,7 +20,7 @@ class MotionInputSignalsROS : public rclcpp::Node {
   ~MotionInputSignalsROS();
 
  private:
-  void odom_callback(nav_msgs::msg::Odometry msg);
+  void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
 
   ARS_40x_CAN *ars_40x_can_;
 
