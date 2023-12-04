@@ -244,27 +244,63 @@ void ContinentalRadarRViz::objects_callback(const perception_msgs::msg::ObjectLi
             break;
         }
         }
+
+        // draw velocity vector in red line
+        visualization_msgs::msg::Marker velocity_vector;
+        // add namespace to avoid duplicate markers
+        velocity_vector.ns = "velocity";
+        velocity_vector.type = visualization_msgs::msg::Marker::ARROW;
+        velocity_vector.header.frame_id = object_list->header.frame_id;
+        velocity_vector.action = visualization_msgs::msg::Marker::ADD;
+        velocity_vector.header.stamp = object_list->header.stamp;
+        velocity_vector.id = object.id;
+        velocity_vector.pose = object.position.pose;
+        pos1.x = 0.0; pos1.y = 0.0; pos1.z = 0.5;
+        pos2.x = object.relative_velocity.twist.linear.x;
+        pos2.y = object.relative_velocity.twist.linear.y;
+        pos2.z = 0.5;
+        velocity_vector.points.push_back(pos1);
+        velocity_vector.points.push_back(pos2);
+        velocity_vector.scale.x = 0.1;
+        velocity_vector.scale.y = 0.2;
+        velocity_vector.scale.z = 0.2;
+        velocity_vector.color.r = 1.0f;
+        velocity_vector.color.g = 0.0f;
+        velocity_vector.color.b = 0.0f;
+        velocity_vector.color.a = 1.0;
+        velocity_vector.lifetime.sec = 0.0;
+        velocity_vector.lifetime.nanosec = 100000000;    // 0.1 sec
+        marker_array.markers.push_back(velocity_vector);
+
         marker.color.a = 1.0;
         marker.lifetime.sec = 0.0;
         marker.lifetime.nanosec = 100000000;    // 0.1 sec
         marker_array.markers.push_back(marker);
 
-        visualization_msgs::msg::Marker velocity;
-        velocity.type = visualization_msgs::msg::Marker::TEXT_VIEW_FACING;
-        velocity.header.frame_id = object_list->header.frame_id;
-        velocity.action = visualization_msgs::msg::Marker::ADD;
-        velocity.header.stamp = object_list->header.stamp;
-        velocity.id = object.id;
-        velocity.text = std::to_string(hypot(object.relative_velocity.twist.linear.x,
+        // draw velocity text
+        visualization_msgs::msg::Marker velocity_test;
+        velocity_test.ns = "velocity_text";
+        velocity_test.type = visualization_msgs::msg::Marker::TEXT_VIEW_FACING;
+        velocity_test.header.frame_id = object_list->header.frame_id;
+        velocity_test.action = visualization_msgs::msg::Marker::ADD;
+        velocity_test.header.stamp = object_list->header.stamp;
+        velocity_test.id = object.id;
+        velocity_test.text = std::to_string(hypot(object.relative_velocity.twist.linear.x,
                                             object.relative_velocity.twist.linear.y));
-        velocity.pose = object.position.pose;
-        velocity.scale.z = 1;
-        velocity.color.a = 1;
+        velocity_test.pose = object.position.pose;
+        // scale to 0.5
+        // velocity_test.scale.x = 0.8;
+        // velocity_test.scale.y = 0.8;
+        velocity_test.scale.z = 0.8;
+        velocity_test.color.a = 1;
+        velocity_test.lifetime.sec = 0.0;
+        velocity_test.lifetime.nanosec = 100000000;    // 0.1 sec
 
-        velocity_array.markers.push_back(velocity);
+        // velocity_array.markers.push_back(velocity_test);
+        marker_array.markers.push_back(velocity_test);
     }
     objects_pub_->publish(marker_array);
-    velocity_pub_->publish(velocity_array);
+    // velocity_pub_->publish(velocity_array);
 }
 }
 

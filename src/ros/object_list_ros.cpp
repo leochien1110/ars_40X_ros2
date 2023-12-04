@@ -9,7 +9,7 @@
 
 namespace ars_40x {
 ObjectListROS::ObjectListROS(ARS_40x_CAN *ars_40x_can) :
-    Node("ars_40x_object_list_ros"),
+    Node("object_list_ros"),
     ars_40x_can_(ars_40x_can) {
     object_0_status_ = ars_40x_can_->get_object_0_status();
     object_1_general_ = ars_40x_can_->get_object_1_general();

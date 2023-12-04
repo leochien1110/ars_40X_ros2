@@ -8,7 +8,7 @@
 
 namespace ars_40x {
 ClusterListROS::ClusterListROS(ARS_40x_CAN *ars_40x_can) :
-    Node("ars_40x_cluster_list_ros"),
+    Node("cluster_list_ros"),
     ars_40x_can_(ars_40x_can), 
     cluster_id_(0) {
   cluster_0_status_ = ars_40x_can->get_cluster_0_status();

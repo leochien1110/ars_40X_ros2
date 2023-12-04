@@ -1,0 +1,22 @@
+<launch>
+  <arg name="visualize" default="true"/>
+  <arg name="obstacle_array" default="true"/>
+
+  <node pkg="ars_40x" exec="ars_40x_ros" namespace="ars_40x" output="screen">
+    <!--<param name="frame_id" value="radar_link"/>-->
+  </node>
+
+  <group if="$(var visualize)">
+    <node pkg="ars_40x" exec="ars_40x_rviz" name="ars_40x_rviz">
+      <remap from="/ars_40x/objects" to="/ars_40x/objects_data"/>
+    </node>
+    <!-- <node pkg="rviz2" exec="rviz2" name="rviz2" args="-d $(find-pkg-share ars_40x)/rviz_cfg/ars_40x.rviz"/> -->
+    <!-- <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen" /> -->
+  </group>
+
+  <group if="$(var obstacle_array)">
+    <node pkg="ars_40x" exec="ars_40x_obstacle_array" name="ars_40x_obstacle_array">
+      <remap from="ars_40x/object_list" to="/ars_40x/objects_data"/>
+    </node>
+  </group>
+</launch>
