@@ -14,7 +14,7 @@
 namespace ars_40x {
 class ObstacleArray : public rclcpp::Node {
  public:
-  ObstacleArray();
+  explicit ObstacleArray();
 
   ~ObstacleArray();
 

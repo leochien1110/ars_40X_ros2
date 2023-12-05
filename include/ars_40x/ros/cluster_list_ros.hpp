@@ -17,7 +17,7 @@
 namespace ars_40x {
 class ClusterListROS : public rclcpp::Node {
 public:
-    ClusterListROS(ARS_40x_CAN *ars_40x_can);
+    explicit ClusterListROS(ARS_40x_CAN *ars_40x_can);
 
     ~ClusterListROS();
 

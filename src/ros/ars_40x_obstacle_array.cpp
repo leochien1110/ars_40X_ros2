@@ -11,7 +11,7 @@
 
 namespace ars_40x {
 ObstacleArray::ObstacleArray() : rclcpp::Node("obstacle_array") {
-    object_list_sub_ = this->create_subscription<perception_msgs::msg::ObjectList>("ars_40x/object_list", 50,
+    object_list_sub_ = this->create_subscription<perception_msgs::msg::ObjectList>("object_list", 50,
                                                                         std::bind(&ObstacleArray::object_list_callback,
                                                                                 this, std::placeholders::_1));
     obstacle_array_pub_ = this->create_publisher<costmap_converter_msgs::msg::ObstacleArrayMsg>("obstacle_array", 50);

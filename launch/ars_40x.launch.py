@@ -17,9 +17,12 @@ def generate_launch_description():
         Node(
             package='ars_40x',
             executable='ars_40x_ros',
-            name='ars_40x_ros1',
+            # namespace='ars_40x',
+            # name='ars_40x_ros',
             output='screen',
+            emulate_tty=True,
             # parameters=[{'frame_id': 'radar_link'}]
+            remappings=[('odom', 'odom')]
         ),
 
         # Node(

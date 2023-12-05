@@ -15,12 +15,12 @@ if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif ()
 
-# find dependencies
+# find ros2 dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-
 find_package(costmap_converter REQUIRED)
 find_package(costmap_converter_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(socket_can REQUIRED)
@@ -28,9 +28,14 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(perception_msgs REQUIRED)
+# find third party dependencies
+find_package(PCL REQUIRED)
 
-include_directories(include)
+include_directories(include ${PCL_INCLUDE_DIRS})
 include_directories(${socket_can_INCLUDE_DIRS})
+
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 add_library(ars_40x_msg
     src/cluster_list.cpp
@@ -54,7 +59,6 @@ add_executable(ars_40x_ros
     src/ros/radar_state_ros.cpp
     )
 target_link_libraries(ars_40x_ros ars_40x_can ${socket_can_LIBRARIES})
-
 ament_target_dependencies(ars_40x_ros
     costmap_converter
     costmap_converter_msgs
@@ -70,6 +74,7 @@ ament_target_dependencies(ars_40x_ros
 add_executable(ars_40x_rviz
     src/ros/ars_40x_rviz.cpp
     )
+target_link_libraries(ars_40x_rviz ${PCL_LIBRARIES})
 ament_target_dependencies(ars_40x_rviz
     rclcpp
     costmap_converter
@@ -80,7 +85,7 @@ ament_target_dependencies(ars_40x_rviz
     std_srvs
     visualization_msgs
     perception_msgs
-    )
+)
 
 add_executable(ars_40x_obstacle_array
     src/ros/ars_40x_obstacle_array.cpp
@@ -97,17 +102,46 @@ ament_target_dependencies(ars_40x_obstacle_array
     perception_msgs
     )
 
+# test
+add_executable(cluster_pub
+    test/cluster_pub.cpp
+    )
+ament_target_dependencies(cluster_pub
+    rclcpp
+    geometry_msgs
+    perception_msgs
+)
 
+add_executable(service_test
+    test/service_test.cpp
+    )
+ament_target_dependencies(service_test
+    rclcpp
+    perception_msgs
+)
+
+# install
 install(
     TARGETS
+    # node
     ars_40x_can
     ars_40x_msg
     ars_40x_ros
     ars_40x_rviz
     ars_40x_obstacle_array
+    # test
+    cluster_pub
+    service_test
     ARCHIVE DESTINATION lib/${PROJECT_NAME}
     LIBRARY DESTINATION lib/${PROJECT_NAME}
     RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+# launch and config files
+install(DIRECTORY
+    launch
+    rviz
+    DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()

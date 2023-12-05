@@ -1,51 +1,93 @@
 #include "ars_40x/ros/radar_cfg_ros.hpp"
 
+using namespace perception_msgs::srv;
+
 namespace ars_40x {
 RadarCfgROS::RadarCfgROS(ARS_40x_CAN *ars_40x_can) :
     rclcpp::Node("radar_cfg_ros"),
     ars_40x_can_(ars_40x_can) {
-  radar_cfg_ = ars_40x_can_->get_radar_cfg();
-  set_max_distance_service_ =
-      this->create_service<MaxDistance>("set_max_distance", std::bind(&RadarCfgROS::set_max_distance, this, std::placeholders::_1, std::placeholders::_2));
-  set_sensor_id_service_ = 
-      this->create_service<SensorID>("set_sensor_id", std::bind(&RadarCfgROS::set_sensor_id, this, std::placeholders::_1, std::placeholders::_2));
-  set_radar_power_service_ =
-      this->create_service<RadarPower>("set_radar_power", std::bind(&RadarCfgROS::set_radar_power, this, std::placeholders::_1, std::placeholders::_2));
-  set_output_type_service_ =
-      this->create_service<OutputType>("set_output_type", std::bind(&RadarCfgROS::set_output_type, this, std::placeholders::_1, std::placeholders::_2));
-  set_send_quality_service_ =
-      this->create_service<std_srvs::srv::SetBool>("set_send_quality", std::bind(&RadarCfgROS::set_send_quality, this, std::placeholders::_1, std::placeholders::_2));
-  set_send_ext_info_service_ =
-      this->create_service<std_srvs::srv::SetBool>("set_send_ext_info", std::bind(&RadarCfgROS::set_send_ext_info, this, std::placeholders::_1, std::placeholders::_2));
-  set_sort_index_service_ =
-      this->create_service<SortIndex>("set_sort_index", std::bind(&RadarCfgROS::set_sort_index, this, std::placeholders::_1, std::placeholders::_2));
-  set_ctrl_relay_cfg_service_ =
-      this->create_service<std_srvs::srv::SetBool>("set_ctrl_relay_cfg", std::bind(&RadarCfgROS::set_ctrl_relay_cfg, this, std::placeholders::_1, std::placeholders::_2));
-  set_store_in_nvm_service_ =
-      this->create_service<std_srvs::srv::SetBool>("set_store_in_nvm", std::bind(&RadarCfgROS::set_store_in_nvm, this, std::placeholders::_1, std::placeholders::_2));
-  set_rcs_threshold_service_ =
-      this->create_service<RCSThreshold>("set_rcs_threshold", std::bind(&RadarCfgROS::set_rcs_threshold, this, std::placeholders::_1, std::placeholders::_2));
+    radar_cfg_ = ars_40x_can_->get_radar_cfg();
+
+    set_max_distance_service_ =
+        this->create_service<MaxDistance>(
+            "set_max_distance",
+            std::bind(&RadarCfgROS::set_max_distance, this,
+                        std::placeholders::_1, std::placeholders::_2));
+    
+    set_sensor_id_service_ = 
+        this->create_service<SensorID>(
+            "set_sensor_id",
+            std::bind(&RadarCfgROS::set_sensor_id, this,
+                      std::placeholders::_1, std::placeholders::_2));
+    
+    set_radar_power_service_ =
+        this->create_service<RadarPower>(
+            "set_radar_power",
+            std::bind(&RadarCfgROS::set_radar_power, this,
+                      std::placeholders::_1, std::placeholders::_2));
+    
+    set_output_type_service_ =
+        this->create_service<OutputType>(
+            "set_output_type",
+            std::bind(&RadarCfgROS::set_output_type, this,
+                      std::placeholders::_1, std::placeholders::_2));
+    
+    set_send_quality_service_ =
+        this->create_service<std_srvs::srv::SetBool>(
+            "set_send_quality",
+            std::bind(&RadarCfgROS::set_send_quality, this,
+                      std::placeholders::_1, std::placeholders::_2));
+    
+    set_send_ext_info_service_ =
+        this->create_service<std_srvs::srv::SetBool>(
+            "set_send_ext_info",
+            std::bind(&RadarCfgROS::set_send_ext_info, this,
+                      std::placeholders::_1, std::placeholders::_2));
+    
+    set_sort_index_service_ =
+        this->create_service<SortIndex>(
+            "set_sort_index",
+            std::bind(&RadarCfgROS::set_sort_index, this,
+                std::placeholders::_1, std::placeholders::_2));
+    
+    set_ctrl_relay_cfg_service_ =
+        this->create_service<std_srvs::srv::SetBool>(
+            "set_ctrl_relay_cfg",
+            std::bind(&RadarCfgROS::set_ctrl_relay_cfg, this,
+            std::placeholders::_1, std::placeholders::_2));
+    
+    set_store_in_nvm_service_ =
+        this->create_service<std_srvs::srv::SetBool>(
+            "set_store_in_nvm",
+            std::bind(&RadarCfgROS::set_store_in_nvm, this,
+            std::placeholders::_1, std::placeholders::_2));
+    
+    set_rcs_threshold_service_ =
+        this->create_service<RCSThreshold>(
+            "set_rcs_threshold",
+            std::bind(&RadarCfgROS::set_rcs_threshold, this,
+            std::placeholders::_1, std::placeholders::_2));
 }
 
 RadarCfgROS::~RadarCfgROS() {
 }
 
 void RadarCfgROS::set_max_distance(
-    const std::shared_ptr<MaxDistance::Request> req,
-    std::shared_ptr<MaxDistance::Response> /*res*/) {
-  if (!radar_cfg_->set_max_distance(static_cast<uint64_t>(req->max_distance))) {
-    return;
-  }
-  ars_40x_can_->send_radar_data(can_messages::RadarCfg);
+    const std::shared_ptr<perception_msgs::srv::MaxDistance::Request> req,
+    std::shared_ptr<perception_msgs::srv::MaxDistance::Response> res) {
+    if (!radar_cfg_->set_max_distance(static_cast<uint64_t>(req->max_distance))) {
+        return;
+    }
+    ars_40x_can_->send_radar_data(can_messages::RadarCfg);
 }
 
 void RadarCfgROS::set_sensor_id(
     const std::shared_ptr<SensorID::Request> req,
     std::shared_ptr<SensorID::Response> /*res*/) {
-  if (!radar_cfg_->set_sensor_id(req->sensor_id)) {
-    return;
-  }
-  ars_40x_can_->send_radar_data(can_messages::RadarCfg);
+    if (!radar_cfg_->set_sensor_id(req->sensor_id)) {
+        return;
+    }
+    ars_40x_can_->send_radar_data(can_messages::RadarCfg);
 }
 
 void RadarCfgROS::set_radar_power(

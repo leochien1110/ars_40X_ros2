@@ -23,13 +23,14 @@ using namespace perception_msgs::srv;
 namespace ars_40x {
 class RadarCfgROS : public rclcpp::Node {
 public:
-    RadarCfgROS(ARS_40x_CAN *ars_40x_can);
+    explicit RadarCfgROS(ARS_40x_CAN *ars_40x_can);
+    explicit RadarCfgROS();
 
     ~RadarCfgROS();
 
     void set_max_distance(
-        const std::shared_ptr<MaxDistance::Request> req,
-        std::shared_ptr<MaxDistance::Response> /*res*/);
+        const std::shared_ptr<perception_msgs::srv::MaxDistance::Request> req,
+        std::shared_ptr<perception_msgs::srv::MaxDistance::Response> res);
 
     void set_sensor_id(
         const std::shared_ptr<SensorID::Request> req,
@@ -72,7 +73,7 @@ private:
 
     radar_cfg::RadarCfg *radar_cfg_;
 
-    rclcpp::Service<MaxDistance>::SharedPtr set_max_distance_service_;
+    rclcpp::Service<perception_msgs::srv::MaxDistance>::SharedPtr set_max_distance_service_;
 
     rclcpp::Service<SensorID>::SharedPtr set_sensor_id_service_;
 

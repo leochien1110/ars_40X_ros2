@@ -8,13 +8,13 @@ namespace ars_40x {
 
 MotionInputSignalsROS::MotionInputSignalsROS(ARS_40x_CAN *ars_40x_can) :
     rclcpp::Node("motion_input_signals_ros"), ars_40x_can_(ars_40x_can) {
-  speed_information_ = ars_40x_can_->get_speed_information();
-  yaw_rate_information_ = ars_40x_can_->get_yaw_rate_information();
-  odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("odom", 10, std::bind(&MotionInputSignalsROS::odom_callback, this, std::placeholders::_1));
-    // odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-    //     "odom", 10, [this](nav_msgs::msg::Odometry::SharedPtr msg) {
-    //         this->odom_callback(*msg);
-    //     });
+    speed_information_ = ars_40x_can_->get_speed_information();
+    yaw_rate_information_ = ars_40x_can_->get_yaw_rate_information();
+    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("odom", 10, std::bind(&MotionInputSignalsROS::odom_callback, this, std::placeholders::_1));
+        // odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
+        //     "odom", 10, [this](nav_msgs::msg::Odometry::SharedPtr msg) {
+        //         this->odom_callback(*msg);
+        //     });
 
 }
 

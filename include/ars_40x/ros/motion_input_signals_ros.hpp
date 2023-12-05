@@ -15,7 +15,7 @@
 namespace ars_40x {
 class MotionInputSignalsROS : public rclcpp::Node {
  public:
-  MotionInputSignalsROS(ARS_40x_CAN *ars_40x_can);
+  explicit MotionInputSignalsROS(ARS_40x_CAN *ars_40x_can);
 
   ~MotionInputSignalsROS();
 

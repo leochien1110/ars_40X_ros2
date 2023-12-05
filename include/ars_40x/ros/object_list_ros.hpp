@@ -15,7 +15,7 @@
 namespace ars_40x {
 class ObjectListROS : public rclcpp::Node {
  public:
-  ObjectListROS(ARS_40x_CAN *continentalRadarCAN);
+  explicit ObjectListROS(ARS_40x_CAN *continentalRadarCAN);
 
   ~ObjectListROS();
 

@@ -1,22 +1,13 @@
-
-// Created by shivesh on 9/18/19.
-//
-
-#include <rclcpp/rclcpp.hpp>
-#include <visualization_msgs/msg/marker_array.hpp>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-
-#include "perception_msgs/msg/cluster_list.hpp"
-#include "perception_msgs/msg/object_list.hpp"
 #include "ars_40x/ros/ars_40x_rviz.hpp"
 
 namespace ars_40x {
 ContinentalRadarRViz::ContinentalRadarRViz() : rclcpp::Node("ars_40x_rviz") {
-    clusters_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("visualize_clusters", 50);
-    objects_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("visualize_objects", 50);
-    velocity_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("visualize_velocity", 50);
-    clusters_sub_ = this->create_subscription<perception_msgs::msg::ClusterList>("ars_40x/clusters", 50, std::bind(&ContinentalRadarRViz::clusters_callback, this, std::placeholders::_1));
-    objects_sub_ = this->create_subscription<perception_msgs::msg::ObjectList>("ars_40x/objects", 50, std::bind(&ContinentalRadarRViz::objects_callback, this, std::placeholders::_1));
+    clusters_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("visualize_clusters", 10);
+    objects_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("visualize_objects", 10);
+    velocity_pub_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("visualize_velocity", 10);
+    pc2_pub_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("radar_points", 10);
+    clusters_sub_ = this->create_subscription<perception_msgs::msg::ClusterList>("clusters", 10, std::bind(&ContinentalRadarRViz::clusters_callback, this, std::placeholders::_1));
+    objects_sub_ = this->create_subscription<perception_msgs::msg::ObjectList>("objects", 10, std::bind(&ContinentalRadarRViz::objects_callback, this, std::placeholders::_1));
 }
 
 ContinentalRadarRViz::~ContinentalRadarRViz() {
@@ -24,7 +15,28 @@ ContinentalRadarRViz::~ContinentalRadarRViz() {
 
 void ContinentalRadarRViz::clusters_callback(const perception_msgs::msg::ClusterList::SharedPtr cluster_list) {
     visualization_msgs::msg::MarkerArray marker_array;
+    std::shared_ptr<PointCloudT> cloud =std::make_shared<PointCloudT>();
+    PointCloudMsgT::SharedPtr cloud_msg = std::make_shared<PointCloudMsgT>();
+
     for (auto cluster : cluster_list->clusters) {
+        // convert cluster to point cloud
+        PointT point;
+        point.x = cluster.position.pose.position.x;
+        point.y = cluster.position.pose.position.y;
+        point.z = cluster.position.pose.position.z;
+        point.intensity = cluster.rcs;
+        point.velocity = sqrt(pow(cluster.relative_velocity.twist.linear.x, 2) +
+                            pow(cluster.relative_velocity.twist.linear.y, 2));
+        point.vx = cluster.relative_velocity.twist.linear.x;
+        point.vy = cluster.relative_velocity.twist.linear.y;
+        point.dynamic_property = cluster.dynamic_property;
+        point.cls = cluster.class_type;
+        point.prob_of_exist = cluster.prob_of_exist;
+        point.ambig_state = cluster.ambig_state;
+        point.invalid_state = cluster.invalid_state;
+        cloud->push_back(point);
+
+        // convert cluster to marker
         visualization_msgs::msg::Marker marker;
         marker.type = visualization_msgs::msg::Marker::POINTS;
         marker.header.frame_id = cluster_list->header.frame_id;
@@ -104,6 +116,10 @@ void ContinentalRadarRViz::clusters_callback(const perception_msgs::msg::Cluster
         marker.lifetime.nanosec = 100000000;    // 0.1 sec
         marker_array.markers.push_back(marker);
     }
+    pcl::toROSMsg(*cloud, *cloud_msg);
+    cloud_msg->header.frame_id = cluster_list->header.frame_id;
+    cloud_msg->header.stamp = cluster_list->header.stamp;
+    pc2_pub_->publish(*cloud_msg);
     clusters_pub_->publish(marker_array);
 }
 

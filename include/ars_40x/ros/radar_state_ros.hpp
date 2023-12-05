@@ -14,8 +14,8 @@
 
 namespace ars_40x {
 class RadarStateROS : public rclcpp::Node {
- public:
-  RadarStateROS(ARS_40x_CAN *ars_40x_can);
+public:
+  explicit RadarStateROS(ARS_40x_CAN *ars_40x_can);
 
   ~RadarStateROS();
 
